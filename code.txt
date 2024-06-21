@@ -18,6 +18,8 @@ contact   48.00 KiB
 local     72.00 KiB
 school    48.00 KiB
 
+// Insérer les documents
+
 test> use contact
 switched to db contact
 
@@ -34,6 +36,7 @@ contact> db.contactlist.insertMany([{nom:'Ben',prenom:'Moris',Couriel:'ben@gmail
   }
 }
 
+// 1. Afficher toutes les informations sur une seule personne utilisant son identifiant
 
 contact> db.contactlist.findOne({ _id: ObjectId('6674d3e731e67b4cd790defe')})
 
@@ -46,6 +49,8 @@ contact> db.contactlist.findOne({ _id: ObjectId('6674d3e731e67b4cd790defe')})
     age: '26 ans'
   }
 ]
+
+// 2. Afficher tous les contacts âgés de plus de 18 ans
 
 contact> db.contactlist.find({ age: { $gt: 18 } })
 
@@ -66,8 +71,12 @@ contact> db.contactlist.find({ age: { $gt: 18 } })
   }
 ]
 
+// 3. Afficher tous les contacts avec un âge > 18 et un nom contenant « ah »
 
 contact> db.contactlist.find({age: { $gt: 18 },  nom: /ah/ })
+
+// 4. Changer le prénom du contact de « Kefi Seif » à « Kefi Anis »
+
 
 contact> db.contactlist.updateOne({ nom: "Kefi", prenom: "Seif" }, { $set: { prenom: "Anis" 
 }})
@@ -79,11 +88,14 @@ contact> db.contactlist.updateOne({ nom: "Kefi", prenom: "Seif" }, { $set: { pre
   upsertedCount: 0
 }
 
+// 5. Supprimer les contacts âgés de moins de 5 ans
+
 contact> db.contactlist.deleteMany({ age: { $lt: 5 } })
 
 { acknowledged: true, deletedCount: 2 }
 
 
+// 6. Afficher toute la liste des contacts
 
 contact> db.contactlist.find()
 [  
