@@ -1,0 +1,112 @@
+hp@DESKTOP-RIFG1GF MINGW64 ~ (master)
+$ mongosh $MDB_CONNECTION_STRING;
+Current Mongosh Log ID: 6674cff931e67b4cd790defd
+Connecting to:          mongodb://localhost:27017/?appName=mongodb-vscode&directConnectiimeoutMS=2000
+Using MongoDB:          7.0.11
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2024-06-20T02:27:51.150+00:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show dbs
+admin     40.00 KiB
+config   108.00 KiB
+contact   48.00 KiB
+local     72.00 KiB
+school    48.00 KiB
+
+test> use contact
+switched to db contact
+
+contact> db.contactlist.insertMany([{nom:'Ben',prenom:'Moris',Couriel:'ben@gmail.com',age:'26 ans'},{nom:'Kefi',prenom:'Seif',Couriel:'kefi@gmail.com',age:'15 ans'},{nom:'Emilie',prenom:'brouge',Couriel:'emilie@gmail.com',age:'40 ans'},{nom:'Alex',prenom:'brun',age:'4 ans'},{nom:'Denzel',prenom:'Washington',age:'3 ans'}])
+
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6674d3e731e67b4cd790defe'),
+    '1': ObjectId('6674d3e731e67b4cd790deff'),
+    '2': ObjectId('6674d3e731e67b4cd790df00'),
+    '3': ObjectId('6674d3e731e67b4cd790df01'),
+    '4': ObjectId('6674d3e731e67b4cd790df02')
+  }
+}
+
+
+contact> db.contactlist.findOne({ _id: ObjectId('6674d3e731e67b4cd790defe')})
+
+[  
+  {
+    _id: ObjectId('6674d3e731e67b4cd790defe'),
+    nom: 'Ben',
+    prenom: 'Moris',
+    Couriel: 'ben@gmail.com',
+    age: '26 ans'
+  }
+]
+
+contact> db.contactlist.find({ age: { $gt: 18 } })
+
+[
+  {
+    _id: ObjectId('6674db37f41f3386f30d9d5c'),
+    nom: 'Ben',
+    prenom: 'Moris',
+    Couriel: 'ben@gmail.com',
+    age: 26
+  },
+  {
+    _id: ObjectId('6674db37f41f3386f30d9d5e'),
+    nom: 'Emilie',
+    prenom: 'brouge',
+    Couriel: 'emilie@gmail.com',
+    age: 40
+  }
+]
+
+
+contact> db.contactlist.find({age: { $gt: 18 },  nom: /ah/ })
+
+contact> db.contactlist.updateOne({ nom: "Kefi", prenom: "Seif" }, { $set: { prenom: "Anis" 
+}})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+contact> db.contactlist.deleteMany({ age: { $lt: 5 } })
+
+{ acknowledged: true, deletedCount: 2 }
+
+
+
+contact> db.contactlist.find()
+[  
+  {
+    _id: ObjectId('6674db37f41f3386f30d9d5c'),
+    nom: 'Ben',
+    prenom: 'Moris',
+    Couriel: 'ben@gmail.com',
+    age: 26
+  },
+  {
+    _id: ObjectId('6674db37f41f3386f30d9d5d'),
+    nom: 'Kefi',
+    prenom: 'Anis',
+    Couriel: 'kefi@gmail.com',
+    age: 15
+  },
+  {
+    _id: ObjectId('6674db37f41f3386f30d9d5e'),
+    nom: 'Emilie',
+    prenom: 'brouge',
+    Couriel: 'emilie@gmail.com',
+    age: 40
+  }
+]
+
